@@ -16,20 +16,25 @@ export const getBooks = async (_: Request, res: Response) => {
   res.json(books);
 };
 
-export const updateBook = async (req: Request, res: Response): Promise<Response> => {
+export const updateBook = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
-      return res.status(400).send("Invalid ID");
+      res.status(400).send("Invalid ID");
+      return;
     }
   
     const book = await bookRepository.findOneBy({ id });
     if (!book) {
-      return res.status(404).send("Book not found");
+      res.status(404).send("Book not found");
+      return;
     }
   
     bookRepository.merge(book, req.body);
     const result = await bookRepository.save(book);
-    return res.json(result);
+    res.json(result);
   };
 
 export const deleteBook = async (req: Request, res: Response) => {
