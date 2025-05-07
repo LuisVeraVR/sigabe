@@ -13,6 +13,7 @@
   "type": "commonjs",
   "dependencies": {
     "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "reflect-metadata": "^0.2.2",
     "sequelize": "^6.37.7",
@@ -20,6 +21,7 @@
     "typeorm": "^0.3.22"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "ts-node": "^10.9.2"
   }
