@@ -1,14 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es2016",                                 
-    "module": "commonjs",                             
-    "esModuleInterop": true,                             
-    "forceConsistentCasingInFileNames": true,     
-    "moduleResolution": "node",  
-    "strict": true,                                      
-    "skipLibCheck": true,      
+    "target": "ES2020",
+    "module": "commonjs",
+    "rootDir": "src",
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
-                           
-  }
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "declaration": false,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "strictPropertyInitialization": false
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }

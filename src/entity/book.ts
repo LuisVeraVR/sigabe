@@ -1,29 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-import 'reflect-metadata';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
+import { Writer } from "./writers";
 
-@Entity()
+@Entity("books")
 export class Book {
   @PrimaryGeneratedColumn()
-    id!: number;
-
+  id!: number;
+  
   @Column()
-    title!: string;
-
+  nombre!: string; 
+  
   @Column()
-    author!: string;
-
-  @Column()
-    year!: number;
-
-  @Column()
-    publisher!: string;
-
-  @Column()
-    type!: string;
-
-  @Column({ nullable: true }) // Fixed typo here
-    photo?: string;
-
-  @Column({ default: true })
-    avaliable!: boolean;
-};
+  genero!: string; 
+  
+  @Column("int")
+  añoPublicacion!: number; 
+  
+  @ManyToOne(() => Writer, writer => writer.books, { nullable: false })
+  @JoinColumn({ name: "authorId" })
+  author!: Writer;
+}
