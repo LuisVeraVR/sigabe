@@ -12,11 +12,5 @@
       "src": "/(.*)",
       "dest": "/index.ts"
     }
-  ],
-  "functions": {
-    "index.ts": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  }
+  ]
 }
