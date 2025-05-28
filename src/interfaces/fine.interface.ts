@@ -1,7 +1,7 @@
 export interface FineResponseDto {
-  id: number;
+  id: string;
   loan: {
-    id: number;
+    id: string;
     bookTitle: string;
     userName: string;
     loanDate: Date;

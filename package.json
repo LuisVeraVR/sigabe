@@ -10,7 +10,7 @@
     "vercel-build": "tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": "Luis Vera",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
@@ -23,16 +23,15 @@
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
-    "reflect-metadata": "^0.2.2",
-    "sequelize": "^6.37.7",
-    "sqlite3": "^5.1.7",
-    "typeorm": "^0.3.22"
+    "mongoose": "^8.1.0",
+    "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/mongoose": "^5.11.97",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
   },

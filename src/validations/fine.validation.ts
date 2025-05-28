@@ -1,15 +1,24 @@
 import { body, param, ValidationChain } from "express-validator";
+import mongoose from "mongoose";
 
 export const fineIdValidation: ValidationChain[] = [
   param("id")
-    .isInt()
-    .withMessage("El ID de multa debe ser un número entero")
+    .notEmpty()
+    .withMessage("El ID de multa es requerido")
+    .custom((value) => {
+      return mongoose.Types.ObjectId.isValid(value);
+    })
+    .withMessage("El ID de multa debe ser un ID de MongoDB válido")
 ];
 
 export const payFineValidation: ValidationChain[] = [
   param("id")
-    .isInt()
-    .withMessage("El ID de multa debe ser un número entero"),
+    .notEmpty()
+    .withMessage("El ID de multa es requerido")
+    .custom((value) => {
+      return mongoose.Types.ObjectId.isValid(value);
+    })
+    .withMessage("El ID de multa debe ser un ID de MongoDB válido"),
   
   body("paidAt")
     .optional()
@@ -19,6 +28,10 @@ export const payFineValidation: ValidationChain[] = [
 
 export const userIdValidation: ValidationChain[] = [
   param("userId")
-    .isInt()
-    .withMessage("El ID de usuario debe ser un número entero")
+    .notEmpty()
+    .withMessage("El ID de usuario es requerido")
+    .custom((value) => {
+      return mongoose.Types.ObjectId.isValid(value);
+    })
+    .withMessage("El ID de usuario debe ser un ID de MongoDB válido")
 ];

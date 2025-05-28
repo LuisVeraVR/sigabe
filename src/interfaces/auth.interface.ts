@@ -11,7 +11,7 @@ export interface UserLoginDto {
 }
 
 export interface JwtPayload {
-    userId: number;
+    userId: string;
     email: string;
     isAdmin: boolean;
 }

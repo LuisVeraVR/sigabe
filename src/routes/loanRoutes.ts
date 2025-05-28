@@ -44,6 +44,7 @@ router.patch(
 );
 
 router.get("/status/overdue", LoanController.getOverdueLoans);
+
 router.post("/update-overdue", LoanController.updateOverdueLoans);
 
 export default router;

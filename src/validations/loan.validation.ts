@@ -1,13 +1,22 @@
 import { body, param, ValidationChain } from "express-validator";
+import mongoose from "mongoose";
 
 export const createLoanValidation: ValidationChain[] = [
   body("userId")
-    .isInt()
-    .withMessage("El ID de usuario debe ser un número entero"),
+    .notEmpty()
+    .withMessage("El ID de usuario es requerido")
+    .custom((value) => {
+      return mongoose.Types.ObjectId.isValid(value);
+    })
+    .withMessage("El ID de usuario debe ser un ID de MongoDB válido"),
   
   body("bookId")
-    .isInt()
-    .withMessage("El ID del libro debe ser un número entero"),
+    .notEmpty()
+    .withMessage("El ID del libro es requerido")
+    .custom((value) => {
+      return mongoose.Types.ObjectId.isValid(value);
+    })
+    .withMessage("El ID del libro debe ser un ID de MongoDB válido"),
   
   body("dueDate")
     .isISO8601()
@@ -26,8 +35,12 @@ export const createLoanValidation: ValidationChain[] = [
 
 export const returnBookValidation: ValidationChain[] = [
   param("id")
-    .isInt()
-    .withMessage("El ID de préstamo debe ser un número entero"),
+    .notEmpty()
+    .withMessage("El ID de préstamo es requerido")
+    .custom((value) => {
+      return mongoose.Types.ObjectId.isValid(value);
+    })
+    .withMessage("El ID de préstamo debe ser un ID de MongoDB válido"),
   
   body("returnDate")
     .optional()
@@ -37,12 +50,20 @@ export const returnBookValidation: ValidationChain[] = [
 
 export const loanIdValidation: ValidationChain[] = [
   param("id")
-    .isInt()
-    .withMessage("El ID de préstamo debe ser un número entero")
+    .notEmpty()
+    .withMessage("El ID de préstamo es requerido")
+    .custom((value) => {
+      return mongoose.Types.ObjectId.isValid(value);
+    })
+    .withMessage("El ID de préstamo debe ser un ID de MongoDB válido")
 ];
 
 export const userIdValidation: ValidationChain[] = [
   param("userId")
-    .isInt()
-    .withMessage("El ID de usuario debe ser un número entero")
+    .notEmpty()
+    .withMessage("El ID de usuario es requerido")
+    .custom((value) => {
+      return mongoose.Types.ObjectId.isValid(value);
+    })
+    .withMessage("El ID de usuario debe ser un ID de MongoDB válido")
 ];

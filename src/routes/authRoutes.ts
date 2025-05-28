@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthController } from "../controller/authController";
-import { authenticateJWT } from "../middleware/auth.middleware";
+import { authenticateJWT, isAdmin } from "../middleware/auth.middleware";
 import { body, ValidationChain } from "express-validator";
 import { validateRequest } from "../middleware/validation.middleware";
 
@@ -43,6 +43,7 @@ router.post(
   validateRequest,
   AuthController.login
 );
+
 router.get("/getUsers", authenticateJWT, AuthController.getUsers);
 router.get("/profile", authenticateJWT, AuthController.getProfile);
 

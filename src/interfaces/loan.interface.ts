@@ -1,6 +1,6 @@
 export interface CreateLoanDto {
-  userId: number;
-  bookId: number;
+  userId: string;
+  bookId: string;
   dueDate: Date | string;
 }
 
@@ -9,15 +9,15 @@ export interface ReturnLoanDto {
 }
 
 export interface LoanResponseDto {
-  id: number;
+  id: string;
   user: {
-    id: number;
+    id: string;
     firstName: string;
     lastName: string;
     email: string;
   };
   book: {
-    id: number;
+    id: string;
     title: string;
     author: string;
   };
@@ -26,7 +26,7 @@ export interface LoanResponseDto {
   returnDate?: Date;
   status: string;
   fine?: {
-    id: number;
+    id: string;
     amount: number;
     status: string;
   };

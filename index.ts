@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import express from "express";
-import { AppDataSource } from "./src/data-source";
+import { connectDB } from "./src/config/database";
 import bookRoutes from './src/routes/bookRoutes';
 import authRoutes from './src/routes/authRoutes';
 import cors from 'cors';
@@ -27,7 +27,7 @@ app.use('/api/loans', loanRoutes);
 app.use('/api/fines', fineRoutes); 
 app.use('/api/auth', authRoutes); 
 
-AppDataSource.initialize()
+connectDB()
   .then(() => {
     console.log("Conexión a la base de datos establecida");
 
