@@ -4,7 +4,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.4.2-blue)
 ![Express](https://img.shields.io/badge/Express-5.1.0-lightgrey)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Latest-green)
-![TypeORM](https://img.shields.io/badge/TypeORM-0.3.22-orange)
+![Mongoose](https://img.shields.io/badge/Mongoose-8.1.0-orange)
 
 Backend REST API para el Sistema de Gestión de Biblioteca (SIGABE) desarrollado con Node.js, TypeScript, Express y MongoDB.
 
@@ -16,7 +16,7 @@ Backend REST API para el Sistema de Gestión de Biblioteca (SIGABE) desarrollado
 - ✅ Sistema de multas automático
 - ✅ Control de usuarios y administradores
 - ✅ Validación de datos con class-validator
-- ✅ Base de datos MongoDB con TypeORM
+- ✅ Base de datos MongoDB con Mongoose
 - ✅ CORS configurado para frontend
 - ✅ Desplegado en Vercel
 
@@ -26,7 +26,7 @@ Backend REST API para el Sistema de Gestión de Biblioteca (SIGABE) desarrollado
 - **Lenguaje:** TypeScript
 - **Framework:** Express.js
 - **Base de datos:** MongoDB
-- **ORM:** TypeORM
+- **ODM:** Mongoose
 - **Autenticación:** JWT (jsonwebtoken)
 - **Validación:** class-validator, express-validator
 - **Encriptación:** bcrypt
@@ -36,16 +36,18 @@ Backend REST API para el Sistema de Gestión de Biblioteca (SIGABE) desarrollado
 
 ```
 src/
-├── controller/          # Controladores de la API
+├── config/              # Configuración de la aplicación
+│   └── database.ts      # Conexión a MongoDB
+├── controllers/         # Controladores de la API
 │   ├── authController.ts
 │   ├── bookController.ts
 │   ├── loanController.ts
 │   └── fineController.ts
-├── entity/              # Entidades de la base de datos
-│   ├── user.ts
-│   ├── book.ts
-│   ├── loan.ts
-│   └── fine.ts
+├── models/              # Modelos de Mongoose
+│   ├── userModel.ts
+│   ├── bookModel.ts
+│   ├── loanModel.ts
+│   └── fineModel.ts
 ├── interfaces/          # Interfaces TypeScript
 │   ├── auth.interface.ts
 │   ├── loan.interface.ts
@@ -60,8 +62,8 @@ src/
 │   └── fineRoutes.ts
 ├── validations/         # Validaciones personalizadas
 │   ├── loan.validation.ts
-│   └── fine.validation.ts
-└── data-source.ts       # Configuración de la base de datos
+└── └── fine.validation.ts
+
 ```
 
 ## 🛠️ Instalación y Configuración
@@ -141,66 +143,11 @@ npm start
 | GET | `/user/:userId/pending-total` | Total pendiente | Sí |
 | GET | `/stats/summary` | Estadísticas | Sí |
 
-## 🏗️ Modelos de Datos
-
-### Usuario (User)
-```typescript
-{
-  id: number,
-  email: string,
-  password: string,
-  firstName: string,
-  lastName: string,
-  isAdmin: boolean,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-### Libro (Book)
-```typescript
-{
-  id: number,
-  title: string,
-  author: string,
-  year: number,
-  publisher: string,
-  type: string,
-  photo?: string,
-  available: boolean
-}
-```
-
-### Préstamo (Loan)
-```typescript
-{
-  id: number,
-  userId: number,
-  bookId: number,
-  loanDate: Date,
-  dueDate: Date,
-  returnDate?: Date,
-  status: 'active' | 'returned' | 'overdue'
-}
-```
-
-### Multa (Fine)
-```typescript
-{
-  id: number,
-  loanId: number,
-  amount: number,
-  createdAt: Date,
-  paidAt?: Date,
-  status: 'pending' | 'paid'
-}
-```
-
 ## ⚙️ Reglas de Negocio
 
 ### Sistema de Multas
 - **Período de gracia:** 0 días
-- **Tarifa diaria:** $5.00 COP por día de retraso
+- **Tarifa diaria:** $5.000 COP por día de retraso
 - **Cálculo automático:** Al devolver un libro con retraso
 
 ### Estados de Préstamos
@@ -221,7 +168,7 @@ Content-Type: application/json
 ### Estructura del token
 ```typescript
 {
-  userId: number,
+  userId: string,      // ObjectId de MongoDB
   email: string,
   isAdmin: boolean,
   exp: number,
@@ -246,15 +193,30 @@ El backend está configurado para aceptar requests desde:
 
 ```bash
 # Desarrollo
-npm run dev          # Ejecutar en modo desarrollo
+npm run dev             # Ejecutar en modo desarrollo
 
 # Producción
-npm run build        # Compilar TypeScript
-npm start           # Ejecutar versión compilada
+npm run build           # Compilar TypeScript
+npm start               # Ejecutar versión compilada
+
+# Utilidades
+npm run seed            # Sembrar datos iniciales
+npm run fix-availability # Corregir campo de disponibilidad
 
 # Vercel
-npm run vercel-build # Build para Vercel
+npm run vercel-build    # Build para Vercel
 ```
+
+## 🔄 Migración de SQLite a MongoDB
+
+Este proyecto ha sido migrado de SQLite con TypeORM a MongoDB con Mongoose. Los cambios principales incluyen:
+
+1. **IDs**: Los IDs ahora son strings (ObjectIds de MongoDB) en lugar de números secuenciales.
+2. **Relaciones**: Se usan referencias a ObjectIds en lugar de relaciones SQL.
+3. **Esquemas**: Se definen esquemas con Mongoose en lugar de entidades de TypeORM.
+4. **Validación**: Se validan los ObjectIds para asegurar su formato correcto.
+5. **Campo 'available'**: Se corrigió el campo de disponibilidad de 'avaliable' a 'available'.
+
 
 ## 🚀 Despliegue
 
@@ -290,16 +252,6 @@ npm run vercel-build # Build para Vercel
 | `JWT_SECRET` | Clave secreta para JWT | `mi_clave_super_secreta_2024` |
 | `NODE_ENV` | Entorno de ejecución | `development` / `production` |
 | `PORT` | Puerto del servidor | `5000` |
-
-## 🧪 Testing
-
-```bash
-# Ejecutar tests (próximamente)
-npm test
-
-# Coverage (próximamente)
-npm run test:coverage
-```
 
 
 ## 👥 Contribución
